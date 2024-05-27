@@ -1,0 +1,351 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Gestão de Montagem de Drones API",
+    "description": "API para gerir o processo de montagem de drones.",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000/api/v1",
+      "description": "Servidor de desenvolvimento"
+    }
+  ],
+  "paths": {
+    "/auth/register": {
+      "post": {
+        "summary": "Registra um novo utilizador",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserRegistration"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Utilizador registrado com sucesso!"
+          },
+          "400": {
+            "description": "Erro de solicitação inválida! Verifica os dados fornecidos."
+          }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "summary": "Autentica um utilizador",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserLogin"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Utilizador autenticado com sucesso, Bem Vindo!"
+          },
+          "401": {
+            "description": "Autenticação inválida. Verifica se os dados estão corretos."
+          }
+        }
+      }
+    },
+    "/parts": {
+      "post": {
+        "summary": "Adiciona uma nova peça",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Part"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Peça adicionada com sucesso!"
+          },
+          "400": {
+            "description": "Erro de solicitação, Verifique se os dados fornecidos estão corretos."
+          }
+        }
+      },
+      "get": {
+        "summary": "Obtém todas as peças",
+        "responses": {
+          "200": {
+            "description": "Lista de todas as peças"
+          },
+          "404": {
+            "description": "Não há peças disponíveis de momento!"
+          }
+        }
+      }
+    },
+    "/parts/{partId}": {
+      "put": {
+        "summary": "Atualiza uma peça existente",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "partId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID da peça a ser atualizada"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Part"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Peça atualizada com sucesso"
+          },
+          "400": {
+            "description": "Erro. Verifique os dados fornecidos."
+          },
+          "404": {
+            "description": "Peça não encontrada."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove uma peça existente",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "partId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID da peça a ser removida"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Peça removida com sucesso"
+          },
+          "404": {
+            "description": "Peça não encontrada."
+          }
+        }
+      }
+    },
+    "/drone": {
+      "post": {
+        "summary": "Cria uma nova montagem de drone",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DroneAssembly"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Montagem de drone feita com sucesso!"
+          },
+          "400": {
+            "description": "Erro de ao criar o drone. Verifique os dados fornecidos."
+          }
+        }
+      },
+      "get": {
+        "summary": "Obtém todas as montagens de drones",
+        "responses": {
+          "200": {
+            "description": "Lista de todas as montagens de drones"
+          },
+          "404": {
+            "description": "Não há montagens de drones disponíveis de momento."
+          }
+        }
+      }
+    },
+    "/drone/{droneId}": {
+      "put": {
+        "summary": "Atualiza uma montagem de drone existente",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "droneId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID da montagem de drone a ser atualizada"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DroneAssembly"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Montagem de drone atualizada com sucesso"
+          },
+          "400": {
+            "description": "Erro de solicitação inválida. Verifique os dados fornecidos."
+          },
+          "404": {
+            "description": "Montagem de drone não encontrada."
+          }
+        }
+      },
+      "delete": {
+        "summary": "Remove uma montagem de drone existente",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "droneId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID da montagem de drone a ser removida"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Montagem de drone removida com sucesso"
+          },
+          "404": {
+            "description": "Montagem de drone não encontrada."
+          }
+        }
+      }
+    },
+    "/users/{userId}/drones": {
+      "get": {
+        "summary": "Obtém todas as montagens de drones de um utilizador específico",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "userId",
+            "required": true,
+            "schema": {
+              "type": "string"
+            },
+            "description": "ID do utilizador"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Lista de todas as montagens de drones do utilizador"
+          },
+          "404": {
+            "description": "Este utilizador ainda não fez nenhuma montagem!."
+          }
+        }
+      }
+    },
+    "/statistics": {
+      "get": {
+        "summary": "Obtém estatísticas sobre o processo de montagem",
+        "responses": {
+          "200": {
+            "description": "Estatísticas obtidas com sucesso"
+          },
+          "500": {
+            "description": "Ocorreu um erro interno no servidor."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "UserRegistration": {
+        "type": "object",
+        "properties": {
+          "username": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "UserLogin": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "Part": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "quantity": {
+            "type": "integer"
+          }
+        }
+      },
+      "DroneAssembly": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "userId": {
+            "type": "string"
+          },
+          "assemblyDate": {
+            "type": "string",
+            "format": "date"
+          },
+          "parts": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    }
+  }
+}
