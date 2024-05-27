@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
 const authRoutes = require('./routes/auth');
+const partRoutes = require('./routes/parts_routes');
+const assemblyRoutes = require('./routes/assembly_routes');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -14,8 +16,14 @@ mongoose.connect('mongodb://localhost:27017/droneAssembly', { useNewUrlParser: t
 // Middleware para analisar JSON
 app.use(bodyParser.json());
 
-// Autenticação
+// Rotas de autenticação
 app.use('/api/v1/auth', authRoutes);
+
+// Rotas de peças
+app.use('/api/v1/parts', partRoutes);
+
+// Rotas de montagem
+app.use('/api/v1/assemblies', assemblyRoutes);
 
 // Inicio do servidor
 app.listen(PORT, () => {
