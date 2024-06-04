@@ -1,0 +1,472 @@
+---
+openapi: 3.0.0
+info:
+  title: Projeto Final
+  description: Projeto Final de Programação no Servidor
+  version: 1.0.0
+servers:
+- url: https://virtserver.swaggerhub.com/TiagoLiu/ProjetoFinalPS/1.0.0
+  description: SwaggerHub API Auto Mocking
+- url: http://localhost:3000
+  description: Projeto Final de Programação no Servidor
+tags:
+- name: Cliente
+- name: Drone
+  description: Montagem e gestão de Drones
+paths:
+  /api/clientes/{id}:
+    get:
+      tags:
+      - Cliente
+      summary: Retorna um cliente específico
+      operationId: getClientePorId
+      parameters:
+      - name: id
+        in: path
+        description: ID do cliente a ser obtido
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+        "404":
+          description: Cliente não encontrado
+    put:
+      tags:
+      - Cliente
+      summary: Atualiza dados de um Cliente
+      operationId: AtualizaDados
+      parameters:
+      - name: id
+        in: path
+        description: ID da encomenda a ser atualizada
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DronesMontagem'
+        required: true
+      responses:
+        "200":
+          description: Dados do Cliente atualizada com sucesso
+        "404":
+          description: Cliente não encontrada
+        "400":
+          description: Requisição inválida
+    delete:
+      tags:
+      - Cliente
+      summary: Deletar um Cliente
+      operationId: DeletarCliente
+      parameters:
+      - name: id
+        in: path
+        description: ID da encomenda a ser obtida
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "201":
+          description: Cliente Deletada com sucesso
+        "400":
+          description: Requisição inválida
+  /api/clientes:
+    get:
+      tags:
+      - Cliente
+      summary: Retorna todos os clientes
+      operationId: listarClientes
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Cliente'
+    post:
+      tags:
+      - Cliente
+      summary: Adiciona um novo cliente
+      operationId: adicionarCliente
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cliente'
+        required: true
+      responses:
+        "201":
+          description: Cliente adicionado com sucesso
+        "400":
+          description: Requisição inválida
+  /api/login:
+    post:
+      tags:
+      - Cliente
+      summary: Autenticar utilizador
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cliente'
+        required: true
+      responses:
+        "200":
+          description: Autenticação bem sucedida
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cliente'
+        "401":
+          description: Credenciais inválidas
+  /api/clientes/{id}/drones:
+    get:
+      tags:
+      - Cliente
+      summary: Retorna os Drones de um cliente específico
+      operationId: listarDronesCliente
+      parameters:
+      - name: id
+        in: path
+        description: ID do cliente
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DronesMontagem'
+        "404":
+          description: Cliente não encontrado
+    post:
+      tags:
+      - Cliente
+      summary: Adiciona um Drone a um cliente
+      operationId: adicionarDroneCliente
+      parameters:
+      - name: id
+        in: path
+        description: ID do Cliente
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cliente'
+        required: true
+      responses:
+        "201":
+          description: Encomenda adicionado com sucesso
+        "400":
+          description: Requisição inválida
+    delete:
+      tags:
+      - Cliente
+      summary: Deletar um Drone um Cliente
+      operationId: DeletarDroneCliente
+      parameters:
+      - name: id
+        in: path
+        description: ID do Cliente
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "201":
+          description: Encomendas canceladas com sucesso
+        "400":
+          description: Requisição inválida
+  /api/drones/peca:
+    post:
+      tags:
+      - Drone
+      summary: Adicionar uma nova peça
+      operationId: addPeca
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Peca'
+        required: true
+      responses:
+        "201":
+          description: Peça Adicionada com sucesso
+        "400":
+          description: Requisição inválida
+  /api/drones/{id}:
+    get:
+      tags:
+      - Drone
+      summary: Retorna uma Montagem específica
+      operationId: getMontagemPorId
+      parameters:
+      - name: id
+        in: path
+        description: ID da montagem do drone a ser obtida
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Montagem'
+        "404":
+          description: Encomenda não encontrada
+    put:
+      tags:
+      - Drone
+      summary: Atualiza uma Montagem existente
+      operationId: atualizarMontagem
+      parameters:
+      - name: id
+        in: path
+        description: ID da Montagem a ser atualizada
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Montagem'
+        required: true
+      responses:
+        "200":
+          description: Montagem atualizada com sucesso
+        "404":
+          description: Montagem não encontrada
+        "400":
+          description: Requisição inválida
+    delete:
+      tags:
+      - Drone
+      summary: Cancelar uma Montagem
+      operationId: CancelarMontagem
+      parameters:
+      - name: id
+        in: path
+        description: ID da Montagem a ser obtida
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "201":
+          description: Montagem cancelada com sucesso
+        "400":
+          description: Requisição inválida
+  /api/dronesMontagem/{id}:
+    get:
+      tags:
+      - Drone
+      summary: Retorna uma Data de uma Montagem específica
+      operationId: getdroneMontagemPorId
+      parameters:
+      - name: id
+        in: path
+        description: ID da montagem do drone a ser obtida
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DronesMontagem'
+        "404":
+          description: Encomenda não encontrada
+    put:
+      tags:
+      - Drone
+      summary: Atualiza uma Data de uma Montagem existente
+      operationId: atualizardroneMontagem
+      parameters:
+      - name: id
+        in: path
+        description: ID da Montagem a ser atualizada
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DronesMontagem'
+        required: true
+      responses:
+        "200":
+          description: Montagem atualizada com sucesso
+        "404":
+          description: Montagem não encontrada
+        "400":
+          description: Requisição inválida
+    delete:
+      tags:
+      - Drone
+      summary: Cancelar Data de uma Montagem
+      operationId: CancelardroneMontagem
+      parameters:
+      - name: id
+        in: path
+        description: ID da Montagem a ser obtida
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "201":
+          description: Montagem cancelada com sucesso
+        "400":
+          description: Requisição inválida
+  /api/dronesEstatistica/{id}:
+    get:
+      tags:
+      - Drone
+      summary: Retorna uma estatística específica
+      operationId: getEstatisticaPorId
+      parameters:
+      - name: id
+        in: path
+        description: ID da estatística a ser obtida
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: integer
+          format: int64
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EstatisticasMontagem'
+        "404":
+          description: Encomenda não encontrada
+  /api/drones:
+    get:
+      tags:
+      - Drone
+      summary: Retorna todas as Montagens de Drones
+      operationId: listarMontagemDrones
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DronesMontagem'
+components:
+  schemas:
+    Peca:
+      type: object
+      properties:
+        id:
+          type: integer
+        nome:
+          type: string
+        descrição:
+          type: string
+    Montagem:
+      type: object
+      properties:
+        id:
+          type: integer
+        peças:
+          type: array
+          items:
+            $ref: '#/components/schemas/Peca'
+    DronesMontagem:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        montagem:
+          $ref: '#/components/schemas/Montagem'
+        dataMontagem:
+          type: string
+          format: date-time
+    EstatisticasMontagem:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        totalMontagens:
+          type: integer
+        peçasMaisUtilizadas:
+          type: array
+          items:
+            $ref: '#/components/schemas/Peca'
+    Cliente:
+      required:
+      - email
+      - nome
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        nome:
+          type: string
+        email:
+          type: string
