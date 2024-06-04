@@ -14,7 +14,7 @@ const authMiddleware = require('../middleware/authMiddleware');
 const router = express.Router();
 const Part = require('../models/Parts');
 
-//Endpoint to register a new drone assembly
+//para registar 
 router.post('/', authMiddleware, async (req, res) => {
     try {
         const { parts } = req.body;
@@ -30,7 +30,7 @@ router.post('/', authMiddleware, async (req, res) => {
     }
 });
 
-//Endpoint to get all the drone assembly of a user
+//para dar todos os drones 
 router.get('/', authMiddleware, async (req, res) => {
     try {
         const assemblies = await Assembly.find({userId: req.user._id}).populate('parts');
@@ -41,20 +41,20 @@ router.get('/', authMiddleware, async (req, res) => {
     }
 });
 
-//Endpoint to update a drone assembly
+//para dar update aos drones
 router.put('/:id', authMiddleware, async (req, res) => {
     try {
         const { id } = req.params;
         const { parts } = req.body;
         const userId = req.user._id;
 
-        // Validar IDs das peças
+        // Validar os IDs das peças
         const validParts = await Part.find({ _id: { $in: parts } });
         if (validParts.length !== parts.length) {
             return res.status(400).json({ message: 'Uma ou mais peças são inválidas' });
         }
 
-        // Encontrar a montagem
+        // Encontrar a montagem escolhida
         const assembly = await Assembly.findById(id);
         if (!assembly) {
             return res.status(404).json({ message: 'Montagem não encontrada' });
@@ -65,7 +65,7 @@ router.put('/:id', authMiddleware, async (req, res) => {
             return res.status(403).json({ message: 'Não autorizado' });
         }
 
-        // Atualizar a montagem
+        // Atualizar a montagem do drone
         assembly.parts = parts;
         await assembly.save();
 
@@ -76,7 +76,7 @@ router.put('/:id', authMiddleware, async (req, res) => {
     }
 });
 
-//Endpoint to delete an assembly
+//Para apagar 
 router.delete('/:id', authMiddleware, async (req, res) => {
     try {
         const { id } = req.params;
@@ -93,7 +93,7 @@ router.delete('/:id', authMiddleware, async (req, res) => {
             return res.status(403).json({ message: 'Não autorizado' });
         }
 
-        // Excluir a montagem
+        // Excluir a montagem do drone
         await Assembly.findByIdAndDelete(id);
 
         res.status(204).send(); // Sem conteúdo
