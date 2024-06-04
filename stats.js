@@ -3,10 +3,10 @@ const Assembly = require('../models/Assembly');
 
 const router = express.Router();
 
-// Endpoint para obter estatísticas de montagens
+// aqui podemos ver as estatísticas de montagens
 router.get('/assemblies', async (req, res) => {
     try {
-        // Contar o número de montagens em andamento
+        // o número de montagens em andamento
         const ongoingCount = await Assembly.countDocuments({ status: 'ongoing' });
 
         res.status(200).json({
